@@ -7,7 +7,9 @@ import redis
 
 app = Flask(__name__)
 
-rcon = redis.StrictRedis(host='localhost', db=1)
+#rcon = redis.StrictRedis(host='localhost', db=1)
+pool = redis.ConnectionPool(host='localhost', port=6379, db=1)
+rcon = redis.Redis(connection_pool=pool)
 prodcons_queue = 'task:prodcons:queue'
 
 @app.route('/', methods=['POST', 'GET'])
@@ -38,5 +40,6 @@ def start_ibeacon_report():
             value['radioid'] = radio
             value['interval'] = interval
             rcon.lpush(prodcons_queue, json.dumps(value))
+
     return jsonify({'code':0, 'msg':'OK'})
 
