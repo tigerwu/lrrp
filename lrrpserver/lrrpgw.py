@@ -16,6 +16,12 @@ prodcons_queue = 'task:prodcons:queue'
 def index():
     return jsonify({'Hello':'World!!'})
 
+@app.route('/mototrbo/scan-result', methods=['POST'])
+def get_scan_result():
+    jsondata = request.json
+    print(jsondata)
+    return jsonify({'code':0, 'msg':'OK'})
+
 @app.route('/mototrbo/start-ibeacon-report', methods=['POST'])
 def start_ibeacon_report():
     jsondata = request.json
